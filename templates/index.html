@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="py-5 text-center">
+	<i class="fa fa-bitcoin" style="font-size:48px;color:red"></i>
+    <h2>Convert Currency</h2>
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-md-8 order-md-1">
+        <form action="" method="post"  enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_csv_file">Select CSV </label>
+                {{form.csv_file}}
+            </div>
+            <div class="form-group">
+                <label for="id_currency">Select Currency </label>
+                {{form.currency}}
+            </div>
+            <div class="form-group">
+                <label for="id_export">Select Export Format </label>
+                {{form.export}}
+            </div>
+
+        <hr class="mb-4">
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+      </form>
+    </div>
+      <div class="col-md-4 order-md-2 mb-4">
+          <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-muted">Details</span>
+            <span class="badge badge-secondary badge-pill"></span>
+          </h4>
+          <ul class="list-group mb-3">
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div>
+                <h6 class="my-0">Selected Currency</h6>
+                <small class="text-muted" id="currency_preview"></small>
+              </div>
+
+            </li>
+
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+
+              <div>
+                <h6 class="my-0">Export Type </h6>
+                <small class="text-muted" id="export_type">CSV</small>
+              </div>
+            </li>
+          </ul>
+
+
+    </div>
+  </div>
+
+</div>
+{% endblock content %}
+{% block extra_js %}
+    <script>
+        $(document).ready(function(){
+            $("#id_currency").on('change',function(){
+                var selectedcurr = $(this).children("option:selected");
+                $("#currency_preview").text(selectedcurr[0].text)
+            });
+            $("#id_export").on('change',function(){
+                var selectedExport = $(this).children("option:selected");
+                $("#export_type").text(selectedExport[0].text)
+            });
+
+        });
+    </script>
+{% endblock extra_js %}

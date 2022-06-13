@@ -1,0 +1,66 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		{% block css %}
+		{% endblock css %}
+		<title>Currency Converter</title>
+	</head>
+	<body>
+		<nav class="navbar navbar-light bg-light justify-content-between">
+			<a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+				<i class="fa fa-bitcoin" style="font-size:48px;color:red"></i>
+				<span class="fs-4">Currency Converter</span>
+			</a>
+			{% if request.user.is_authenticated %}
+				<div class="btn-group">
+					<button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					{{request.user.get_full_name}}
+					</button>
+					<div class="dropdown-menu dropdown-menu-right">
+						<a href="{% url 'logout' %}" class="dropdown-item" type="button">Logout</a>
+					</div>
+				</div>
+			{% else %}
+				<a class="btn btn-outline-primary" href="{% url 'login' %}">Login</a>
+			{% endif %}
+		</nav>
+		<!-- </div> -->
+		{% for message in messages %}
+			<li class="{{ message.tags }}">
+				{% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
+			</li>
+		{% endfor %}
+		{% block content %}
+		{% endblock content %}
+		<div class="container">
+			<footer class="pt-4 my-md-5 pt-md-5 border-top">
+				<div class="row">
+					<div class="col-12 col-md">
+						<i class="fa fa-bitcoin" style="font-size:18px;color:red"></i>&copy; 2020
+					</div>
+					<div class="col-6 col-md">
+						<!--                    <h5>Features</h5>-->
+						<ul class="list-unstyled text-small">
+							<!--                      <li><a class="text-muted" href="#">Cool stuff</a></li>-->
+						</ul>
+					</div>
+					<div class="col-6 col-md">
+					</div>
+				</div>
+			</footer>
+		</div>
+		{% block js %}
+			<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+			<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		{% endblock js %}
+		{% block extra_js %}
+		{% endblock extra_js %}
+	</body>
+</html>
