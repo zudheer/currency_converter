@@ -1,0 +1,6 @@
+## Copy this file to .env, depending on your environment
+
+DJANGO_SECRET_KEY='di20p($z&0(1pajqtf&dd*y8kc8)sm+2i9*^os=8v!x6qck5-w'
+DJANGO_DEBUG=true
+DJANGO_TIME_ZONE=UTC
+DJANGO_ALLOWED_HOSTS=*,localhost
