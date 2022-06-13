@@ -1,0 +1,79 @@
+    {% extends 'base.html' %}
+
+    {% load custom_tags %}
+    {% block content %}
+    <div class="panel-heading">
+    </div>
+    <div id="loginbox" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div class="panel panel-info" >
+            <div class="panel-heading">
+                {% if edit_profile %}
+                <div class="panel-title">Edit Profile</div>
+                {% else %}
+                <div class="panel-title">Complete Profile</div>
+                {% endif %}
+            </div>
+            <div class="panel-body" >
+                <div class="custom-registation-form">
+                <form  class="form-group" method="post" enctype='multipart/form-data'>
+                    {% csrf_token %}
+
+                    {% include 'text_input.html' with field=form.username name='example-text-input' label='Username' only%}
+                    {% include 'text_input.html' with field=form.email name='example-text-input' label='Email' only%}
+                    {% if not super_admin %}
+                        {% if request.user.userprofile.is_admin and edit_profile %}
+                            <label class="col-lg-12 text-left" >Change Role <a href="#" id="change_role_toggle">click here</a></label>
+                        {% endif %}
+                            <div id="role_container" style="display: none;">
+                                {% include 'text_input.html' with field=form.role name='example-text-input' label='Choose a role' only%}
+                            </div>
+                    {% endif %}
+                    {% if edit_profile %}
+                        <label class="col-lg-12 text-left" >Change password <a href="#" id="change_password_toggle">click here</a></label>
+                    {% endif %}
+                    <div id="password_container" {% if form.password2.errors %}{% else %} {% if edit_profile %} style="display: none;"{% endif %}{% endif %}>
+
+                        {% include 'text_input.html' with field=form.password1 name='example-text-input' label='Password' only%}
+                        {% include 'text_input.html' with field=form.password2 name='example-text-input' label='Confirm Password' only%}
+
+                    </div>
+                    {% if  request.user.userprofile.is_pim_manager or request.user.userprofile.is_admin %}
+                        <div class="row">
+                            <div class="form-group col-lg-12">
+                                <label class="col-lg-12 text-left">Review emails <span class="text-danger">*</span></label>
+                                {% include 'template_snippet/check_box.html' with field=form.parent_edit_email name='example-text-input' label='Parent edit' only%}
+                                {% include 'template_snippet/check_box.html' with field=form.bulk_review_email name='example-text-input' label='Bulk edit' only%}
+                                {% include 'template_snippet/check_box.html' with field=form.item_edit_email name='example-text-input' label='Item edit' only%}
+
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div  class="form-group">
+                        <div class="col-sm-12 controls">
+                            <button type="submit" class="center-block btn  btn-block btn-success">Save</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+    {% endblock content %}
+    {% block extra_js %}
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#change_password_toggle').click(function() {
+                    $("#password_container").show();
+                    $('#id_password1').prop('required',true);
+                    $('#id_password2').prop('required',true);
+
+                });
+                $('#change_role_toggle').click(function() {
+                    $("#role_container").show();
+                    $('#id_role').prop('required',true);
+                });
+            });
+
+        </script>
+    {% endblock extra_js %}

@@ -1,0 +1,10 @@
+<div class="row">
+<div class="form-group col-lg-12{% if form.email.errors %}has-error{% endif %}">
+  <label for="{{ field.name }}-input" class="col-lg-6 text-left">{{label}} <span class="text-danger">*</span></label>
+  <div class="">
+    {% if field.errors %}
+    <div class="help-block animated fadeInDown">{{field.errors}}</div>
+    {% endif %}
+  </div>
+</div>
+</div>
