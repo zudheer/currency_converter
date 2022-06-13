@@ -30,6 +30,7 @@ if DEBUG:
 
 assert DEBUG or len(SECRET_KEY) >= 20, 'Too short SECRET_KEY'
 
+ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS').split(',')
 
 # Application definition
 
