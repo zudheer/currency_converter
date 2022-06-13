@@ -1,3 +1,12 @@
-from django.shortcuts import render
+from django.views.generic import TemplateView
+from converter.forms import CSVUploadForm
+from django.views.generic.edit import FormView
 
-# Create your views here.
+
+class HomeView(FormView):
+    """Landing page."""
+    template_name = 'index.html'
+    form_class = CSVUploadForm
+
+    def form_valid(self, form):
+        return form.parse_csv()
